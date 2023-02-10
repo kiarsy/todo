@@ -53,7 +53,7 @@ jobs:
       - name: Helm install
         uses: WyriHaximus/github-action-helm3@v2
         with:
-          exec: helm upgrade todo ./.chart -n todo
+          exec: helm upgrade todo .chart -n todo
           kubeconfig: '${{ secrets.KUBECONFIG }}'
 
 
