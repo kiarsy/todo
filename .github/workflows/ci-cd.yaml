@@ -38,6 +38,6 @@ jobs:
           release: 'todo'
           namespace: 'todo'
           chart: './.chart/'
-          token: '${{ github.token }}'
+          # token: '${{ github.token }}'
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
