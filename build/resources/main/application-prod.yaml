@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASS}
+server:
+  port: ${SERVER_PORT}
+
+app:
+  debug: false
+  jwt:
+    secret: ${JWT_SECRET}

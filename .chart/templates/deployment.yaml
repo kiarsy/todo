@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.global.name }}-deployment
+  namespace: {{ .Values.global.namespace }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.global.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.global.name }}
+        version: "{{ .Values.image.tag }}"
+      annotations:
+        releaseTime: {{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC"| quote }}
+
+    spec:
+      containers:
+        - name: {{ .Values.global.name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          ports:
+            - name: http
+              containerPort: {{ $.Values.image.env.SERVER_PORT }}
+              protocol: TCP
+          env:
+          {{- range $k, $v := .Values.image.env }}
+          - name: {{ $k }}
+            value: {{ $v | quote }}
+          {{- end }}
+          {{- range $k, $v := .Values.image.secret }}
+          - name: {{ $k }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $.Values.global.name }}-secret
+                key: {{ $v }}
+          {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /health/live?livenessProbe=true
+              port: {{ $.Values.image.env.SERVER_PORT }}
+            initialDelaySeconds: 16
+            periodSeconds: 30
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health/live?readinessProbe=true
+              port: {{ $.Values.image.env.SERVER_PORT }}
+            initialDelaySeconds: 16
+            periodSeconds: 30
+            failureThreshold: 3
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

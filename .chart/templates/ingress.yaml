@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.global.name }}-ingress
+#  namespace: {{ .Values.global.namespace }}
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /health/live
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: todo.kiarsy.com
+      http:
+        paths:
+          - path: /(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: todo-service
+                port:
+                  number: 80

@@ -1,0 +1,62 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.0.2'
+	id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'com.kiarsy'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '19'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-core'
+	implementation 'org.springframework.security:spring-security-config'
+	implementation 'org.springframework.security:spring-security-web'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.javatuples:javatuples:1.2'
+	implementation 'mysql:mysql-connector-java'
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'org.projectlombok:lombok:1.18.22'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5', 'io.jsonwebtoken:jjwt-jackson:0.11.5' // or 'io.jsonwebtoken:jjwt-gson:0.11.5' for gson
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+}
+
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}
+tasks.register("bootRunDocker") {
+	group = "application"
+	description = "Run the Spring Boot application on the Docker"
+	doLast {
+		println("Building Docker image")
+		exec{
+			commandLine 'sh', '-c', 'docker build --build-arg JAR_FILE=./build/libs/todo-0.0.1-SNAPSHOT.jar -t todo/server .'
+			commandLine 'sh', '-c', 'docker-compose up -d'
+		}
+
+	}
+	finalizedBy("build")
+}
+
+tasks.register("buildProd") {
+	group = "application"
+	description = "Build the Spring Boot application with the prod profile"
+	doLast {
+		println("Building Docker image")
+		exec{
+			commandLine 'sh', '-c', 'docker build --build-arg JAR_FILE=./build/libs/todo-0.0.1-SNAPSHOT.jar -t todo/server .'
+		}
+
+	}
+	finalizedBy("build")
+}

@@ -1,0 +1,17 @@
+<script>
+    fetch('http://todo.kiarsy.com/user/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "username": "admin",
+            "password": "0000"
+        })
+    })
+        .then(res => res.json())
+        .then(res => {
+            console.log("res:", res.status);
+            console.log("res:", res);
+        });
+</script>

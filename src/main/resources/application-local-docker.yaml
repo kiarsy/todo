@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASS}
+server:
+  port: ${SERVER_PORT}
+
+app:
+  debug: true
+  jwt:
+    secret: SG9zc2VpbktpYXJzeVBvdXIxOTkwQEhvc3NlaW5LaWFyc3lQb3VyMTk5MEBIb3NzZWluS2lhcnN5UG91cjE5OTBASG9zc2VpbktpYXJzeVBvdXIxOTkwQA== #HosseinKiarsyPour1990@HosseinKiarsyPour1990@HosseinKiarsyPour1990@HosseinKiarsyPour1990@
