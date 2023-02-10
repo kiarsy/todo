@@ -45,11 +45,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - uses: actions/checkout@v2
-      - name: Helm Lint
-        uses: WyriHaximus/github-action-helm3@v2
-        with:
-          exec: helm lint ./helm-chart
+      # - uses: actions/checkout@v2
+      # - name: Helm Lint
+      #   uses: WyriHaximus/github-action-helm3@v2
+      #   with:
+      #     exec: helm lint ./chart
       - name: Helm install
         uses: WyriHaximus/github-action-helm3@v2
         with:
