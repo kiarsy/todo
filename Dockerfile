@@ -4,6 +4,7 @@ WORKDIR /java
 RUN apt update
 RUN apt install wget -y
 
+
 RUN wget https://download.oracle.com/java/19/latest/jdk-19_linux-x64_bin.deb
 RUN apt install ./jdk-19_linux-x64_bin.deb -y
 RUN update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk-19/bin/java 1
