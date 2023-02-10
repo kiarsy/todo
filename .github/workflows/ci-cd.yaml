@@ -32,12 +32,32 @@ jobs:
       - name: Push image to DigitalOcean Container Registry
         run: docker push registry.digitalocean.com/kia-repo/todo-server
 
-      - name: Helm Upgrade
-        uses: 'deliverybot/helm@v1'
+  helm-lint:
+    name: Helm lint and release
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - name: Helm Lint
+        uses: WyriHaximus/github-action-helm3@v2
         with:
-          release: 'todo'
-          namespace: 'todo'
-          chart: './.chart/'
-          # token: '${{ github.token }}'
-        env:
-          KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
+          exec: helm lint ./helm-chart
+      - name: Helm install
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: helm upgrade todo ./.chart -n todo
+          kubeconfig: '${{ secrets.KUBECONFIG }}'
+
+
+# Kia-Laptop:todo kiarsy$ helm --kube-context digitalocean upgrade todo ./.chart/ -n todo
+
+
+      # - name: Helm Upgrade
+      #   uses: 'deliverybot/helm@v1'
+      #   with:
+      #     release: 'todo'
+      #     namespace: 'todo'
+      #     chart: './.chart/'
+      #     # token: '${{ github.token }}'
+      #   env:
+      #     KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
