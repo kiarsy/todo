@@ -4,7 +4,7 @@ on:
     branches:
       - main
 jobs:
-  cd-development:
+  build:
     name: CD development
     runs-on: ubuntu-latest
 
