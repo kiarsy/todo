@@ -45,6 +45,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
       # - uses: actions/checkout@v2
       # - name: Helm Lint
       #   uses: WyriHaximus/github-action-helm3@v2
@@ -55,17 +57,3 @@ jobs:
         with:
           exec: helm upgrade todo .chart -n todo
           kubeconfig: '${{ secrets.KUBECONFIG }}'
-
-
-# Kia-Laptop:todo kiarsy$ helm --kube-context digitalocean upgrade todo ./.chart/ -n todo
-
-
-      # - name: Helm Upgrade
-      #   uses: 'deliverybot/helm@v1'
-      #   with:
-      #     release: 'todo'
-      #     namespace: 'todo'
-      #     chart: './.chart/'
-      #     # token: '${{ github.token }}'
-      #   env:
-      #     KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
