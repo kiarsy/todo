@@ -1,0 +1,43 @@
+name: CD Server
+on:
+  push:
+    branches:
+      - main
+jobs:
+  cd-development:
+    name: CD development
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Build with Gradle
+        run: ./gradlew clean build
+
+      - name: Build the Docker image
+        run: docker build --build-arg JAR_FILE=./build/libs/todo-0.0.1-SNAPSHOT.jar -t todo/server .
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_DOCKER_HUB_TOKEN }}
+
+      - name: Login to DigitalOcean Container Registry with short-lived credentials
+        run: doctl registry login --expiry-seconds 600
+      
+      - name: TAG Docker image
+        run: docker tag todo/server registry.digitalocean.com/kia-repo/todo-server
+
+      - name: Push image to DigitalOcean Container Registry
+        run: docker push registry.digitalocean.com/kia-repo/todo-server
+
+      - name: Helm Upgrade
+        uses: 'deliverybot/helm@v1'
+        with:
+          release: 'todo'
+          namespace: 'todo'
+          chart: './.chart/'
+          token: '${{ github.token }}'
+        env:
+          KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'

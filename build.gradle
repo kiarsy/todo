@@ -60,3 +60,5 @@ tasks.register("buildProd") {
 	}
 	finalizedBy("build")
 }
+
+
