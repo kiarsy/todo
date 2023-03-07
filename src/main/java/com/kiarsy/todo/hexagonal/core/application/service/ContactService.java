@@ -18,9 +18,10 @@ public class ContactService implements IContactService {
         this.contactRepository = contactRepository;
     }
 
-    public void create(long owner_id, Contact contact) {
+    public Contact create(long owner_id, Contact contact) {
         contact.create(owner_id);
-        contactRepository.save(contact);
+        var entity= contactRepository.save(contact);
+        return entity;
     }
 
     @Override
@@ -29,14 +30,15 @@ public class ContactService implements IContactService {
     }
 
     @Override
-    public void update(long owner_id, long id, Optional<String> firstName, Optional<String> lastName, Optional<String> phoneNumber) {
+    public Contact update(long owner_id, long id, Optional<String> firstName, Optional<String> lastName, Optional<String> phoneNumber) {
         var entity = contactRepository.findOneByOwnerIdAndId(owner_id, id);
         if (entity.isEmpty()) {
             throw new ResourceNotFoundException("Contact not found");
         }
         var todo = entity.get();
         todo.editTodo(firstName, lastName, phoneNumber);
-        contactRepository.save(todo);
+        var newEntity=contactRepository.save(todo);
+        return newEntity;
     }
 
     @Override

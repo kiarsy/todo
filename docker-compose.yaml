@@ -1,21 +1,21 @@
 version: '3.3'
 services:
-  server:
-    image: todo/server:latest
-    restart: always
-    environment:
-      DATABASE_URL: 'jdbc:mysql://db:3306/todo'
-      DATABASE_USER: 'admin'
-      DATABASE_PASS: 'root'
-      SERVER_PORT: 2020
-      spring.profiles.active: 'local-docker'
-    ports:
-      # <Port exposed> : < MySQL Port running inside container>
-      - '2202:2020'
-    expose:
-      # Opens port 3306 on the container
-      - '2202'
-      # Where our data will be persisted
+#  server:
+#    image: todo/server:latest
+#    restart: always
+#    environment:
+#      DATABASE_URL: 'jdbc:mysql://db:3306/todo'
+#      DATABASE_USER: 'admin'
+#      DATABASE_PASS: 'root'
+#      SERVER_PORT: 2020
+#      spring.profiles.active: 'local-docker'
+#    ports:
+#      # <Port exposed> : < MySQL Port running inside container>
+#      - '2202:2020'
+#    expose:
+#      # Opens port 3306 on the container
+#      - '2202'
+#      # Where our data will be persisted
   db:
     image: mysql:5.7
     restart: always

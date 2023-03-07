@@ -8,10 +8,10 @@ import java.util.Optional;
 public interface IContactService {
     public List<Contact> listAllOfUser(long owner_id);
 
-    public void create(long owner_id, Contact contact);
+    public Contact create(long owner_id, Contact contact);
 
     public void delete(long owner_id,long id);
 
-    public void update(long owner_id, long id, Optional<String> firstName, Optional<String> lastName, Optional<String> phoneNumber);
+    public Contact update(long owner_id, long id, Optional<String> firstName, Optional<String> lastName, Optional<String> phoneNumber);
 
 }

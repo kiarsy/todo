@@ -1,5 +1,7 @@
 package com.kiarsy.todo.hexagonal.core.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 import java.util.Optional;
 
@@ -9,6 +11,7 @@ public class Todo {
     private String description;
     private TodoStatus status = TodoStatus.Not_Completed;
     private Date date;
+    @JsonIgnore
     private User owner;
 
     protected Todo() {

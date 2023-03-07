@@ -34,13 +34,13 @@ public class TodoController {
 
     @RequestMapping(path = "/", method = RequestMethod.POST)
     public Response create(@RequestBody Todo todo) {
-        todoService.create(JwtAuthentication.getAuthentication().getId(), todo);
-        return new Response();
+        var entity = todoService.create(JwtAuthentication.getAuthentication().getId(), todo);
+        return new Response(entity);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     public Response delete(@PathVariable(value = "id") long id) {
-        todoService.delete(JwtAuthentication.getAuthentication().getId(), id);
+         todoService.delete(JwtAuthentication.getAuthentication().getId(), id);
         return new Response();
     }
 
@@ -59,8 +59,8 @@ public class TodoController {
             title = Optional.of(String.valueOf(body.get("title")));
         }
 
-        todoService.update(JwtAuthentication.getAuthentication().getId(), id, status, description, title);
-        return new Response();
+        var entity =todoService.update(JwtAuthentication.getAuthentication().getId(), id, status, description, title);
+        return new Response(entity);
     }
 
 }
