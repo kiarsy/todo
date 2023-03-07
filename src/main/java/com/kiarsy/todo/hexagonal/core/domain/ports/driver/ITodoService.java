@@ -7,10 +7,10 @@ import java.util.Optional;
 public interface ITodoService {
     public List<Todo> listAllTodosOfUser(long owner_id);
 
-    public void create(long owner_id, Todo todo);
+    public Todo create(long owner_id, Todo todo);
 
     public void delete(long owner_id,long id);
 
-    public void update(long owner_id, long id, Optional<Long> status, Optional<String> description, Optional<String> title);
+    public Todo update(long owner_id, long id, Optional<Long> status, Optional<String> description, Optional<String> title);
 }
 

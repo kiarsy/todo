@@ -20,9 +20,9 @@ public class TodoService implements ITodoService {
         return todoRepository.findAllByOwnerId(owner_id);
     }
 
-    public void create(long owner_id, Todo todo) {
+    public Todo create(long owner_id, Todo todo) {
         todo.createNewTodo(owner_id);
-        todoRepository.save(todo);
+        return todoRepository.save(todo);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class TodoService implements ITodoService {
         todoRepository.deleteOne(owner_id,id);
     }
 
-    public void update(long owner_id, long id, Optional<Long> status, Optional<String> description, Optional<String> title) {
+    public Todo update(long owner_id, long id, Optional<Long> status, Optional<String> description, Optional<String> title) {
         var todoEntity = todoRepository.findOneByOwnerIdAndId(owner_id, id);
         if (todoEntity.isEmpty()) {
             throw new ResourceNotFoundException("Todo not found");
@@ -38,6 +38,6 @@ public class TodoService implements ITodoService {
         var todo = todoEntity.get();
         todo.editTodo(status,description,title);
 
-        todoRepository.save(todo);
+        return todoRepository.save(todo);
     }
 }

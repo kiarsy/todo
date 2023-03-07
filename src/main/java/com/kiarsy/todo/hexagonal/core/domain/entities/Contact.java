@@ -1,5 +1,7 @@
 package com.kiarsy.todo.hexagonal.core.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Optional;
 
 public class Contact {
@@ -7,6 +9,7 @@ public class Contact {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    @JsonIgnore()
     private User owner;
 
     protected Contact() {

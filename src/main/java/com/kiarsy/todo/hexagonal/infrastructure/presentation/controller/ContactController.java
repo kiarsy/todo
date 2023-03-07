@@ -34,8 +34,8 @@ public class ContactController {
 
     @RequestMapping(path = "/", method = RequestMethod.POST)
     public Response create(@RequestBody Contact contact) {
-        service.create(JwtAuthentication.getAuthentication().getId(), contact);
-        return new Response();
+        var newContact = service.create(JwtAuthentication.getAuthentication().getId(), contact);
+        return new Response(newContact);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
@@ -59,8 +59,8 @@ public class ContactController {
             phoneNumber = Optional.of(String.valueOf(body.get("phoneNumber")));
         }
 
-        service.update(JwtAuthentication.getAuthentication().getId(), id, firstName, lastName, phoneNumber);
-        return new Response();
+        var entity = service.update(JwtAuthentication.getAuthentication().getId(), id, firstName, lastName, phoneNumber);
+        return new Response(entity);
     }
 
 }
